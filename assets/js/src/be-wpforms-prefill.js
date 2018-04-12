@@ -28,7 +28,7 @@ jQuery(function($){
 
 		var $this      = $(this),
 			$form      = $this.closest( '.wpforms-form' ),
-			$field     = $this.closest( 'wpforms-field' ),
+			$field     = $this.closest( '.wpforms-field' ),
 			formId     = $form.data('formid'),
 			fieldId    = $this.attr('id'),
 			fieldValue = $this.val(),
