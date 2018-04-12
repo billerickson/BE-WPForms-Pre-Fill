@@ -111,7 +111,9 @@ final class BE_WPForms_PreFill {
 	 */
 	function init() {
 
-		add_action( 'wp_enqueue_scripts',             array( $this, 'scripts' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'scripts' ) );
+      	add_filter( 'wpforms_builder_settings_sections', array( $this, 'settings_section' ), 20, 2 );
+        add_filter( 'wpforms_form_settings_panel_content', array( $this, 'settings_section_content' ), 20 );
 
 	}
 
@@ -127,6 +129,32 @@ final class BE_WPForms_PreFill {
  		//wp_localize_script( 'be-like-content', 'BE_WPFORMS_PREFILL', array( 'url' => admin_url( 'admin-ajax.php' ) ) );
 
 	}
+
+   /**
+     * Add Settings Section
+     *
+     */
+    function settings_section( $sections, $form_data ) {
+        $sections['be_wpforms_prefill'] = __( 'Pre-Fill', 'be-wpforms-prefill' );
+        return $sections;
+    }
+    /**
+     * ConvertKit Settings Content
+     *
+     */
+    function settings_section_content( $instance ) {
+        echo '<div class="wpforms-panel-content-section wpforms-panel-content-section-be_wpforms_prefill">';
+        echo '<div class="wpforms-panel-content-section-title">' . __( 'Pre-Fill', 'be-wpforms-prefill' ) . '</div>';
+		wpforms_panel_field(
+			'checkbox',
+			'settings',
+			'be_wpforms_prefill',
+			$instance->form_data,
+			esc_html__( 'Pre-fill form with previous submission using cookie', 'wpforms' )
+		);
+        echo '</div>';
+    }
+
 
 	/**
 	 * Load Assets
