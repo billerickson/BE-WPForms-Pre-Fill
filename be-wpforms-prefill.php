@@ -124,10 +124,10 @@ final class BE_WPForms_PreFill {
 	public function scripts() {
 
 		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG )  {
-			wp_enqueue_script( 'jscookie', BE_WPFORMS_PREFILL_URL . '/assets/js/src/js.cookie.js', array(), '2.1.2', true );
-			wp_enqueue_script( 'be-wpforms-prefill', BE_WPFORMS_PREFILL_URL . '/assets/js/src/be-wpforms-prefill.js', array( 'jquery' ), BE_WPFORMS_PREFILL_VERSION, true );
+			wp_enqueue_script( 'jscookie', BE_WPFORMS_PREFILL_URL . 'assets/js/src/js.cookie.js', array(), '2.1.2', true );
+			wp_enqueue_script( 'be-wpforms-prefill', BE_WPFORMS_PREFILL_URL . 'assets/js/src/be-wpforms-prefill.js', array( 'jquery' ), BE_WPFORMS_PREFILL_VERSION, true );
 		} else {
-			wp_enqueue_script( 'be-wpforms-prefill', BE_WPFORMS_PREFILL_URL . '/assets/js/be-wpforms-prefill-min.js', array( 'jquery' ), BE_WPFORMS_PREFILL_VERSION, true );
+			wp_enqueue_script( 'be-wpforms-prefill', BE_WPFORMS_PREFILL_URL . 'assets/js/be-wpforms-prefill-min.js', array( 'jquery' ), BE_WPFORMS_PREFILL_VERSION, true );
 		}
 	}
 
