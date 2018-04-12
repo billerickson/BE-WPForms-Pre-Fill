@@ -111,8 +111,7 @@ final class BE_WPForms_PreFill {
 	public function init() {
 
 		add_action( 'wpforms_wp_footer', array( $this, 'scripts' ) );
-		add_filter( 'wpforms_builder_settings_sections', array( $this, 'settings_section' ), 20, 2 );
-		add_filter( 'wpforms_form_settings_panel_content', array( $this, 'settings_section_content' ), 20 );
+		add_action( 'wpforms_form_settings_general', array( $this, 'setting' ), 20 );
 		add_filter( 'wpforms_frontend_form_atts', array( $this, 'prefill_class' ), 10, 2 );
 	}
 
@@ -133,31 +132,18 @@ final class BE_WPForms_PreFill {
 	}
 
 	/**
-	 * Add Settings Section
+	 * Pre-fill setting
 	 *
 	 */
-	public function settings_section( $sections, $form_data ) {
+	public function setting( $instance ) {
 
-		$sections['be_wpforms_prefill'] = __( 'Pre-Fill', 'be-wpforms-prefill' );
-		return $sections;
-	}
-
-	/**
-	 * ConvertKit Settings Content
-	 *
-	 */
-	public function settings_section_content( $instance ) {
-
-		echo '<div class="wpforms-panel-content-section wpforms-panel-content-section-be_wpforms_prefill">';
-		echo '<div class="wpforms-panel-content-section-title">' . __( 'Pre-Fill', 'be-wpforms-prefill' ) . '</div>';
 		wpforms_panel_field(
 			'checkbox',
 			'settings',
 			'be_wpforms_prefill',
 			$instance->form_data,
-			esc_html__( 'Pre-fill form with previous submission using cookie', 'wpforms' )
+			esc_html__( 'Pre-fill fields with previous entries using cookie', 'wpforms' )
 		);
-		echo '</div>';
 	}
 
 	/**
