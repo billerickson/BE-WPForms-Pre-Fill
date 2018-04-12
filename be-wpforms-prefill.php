@@ -5,7 +5,7 @@
  * Description: Uses cookies to pre-fill a form a user has already filled out before
  * Author:      Bill Erickson
  * Author URI:  https://www.billerickson.net
- * Version:     1.0.1
+ * Version:     1.0.2
  *
  * BE WPForms Pre-Fill is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -52,7 +52,7 @@ final class BE_WPForms_PreFill {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	private $version = '1.0.1';
+	private $version = '1.0.2';
 
 	/**
 	 * Settings
