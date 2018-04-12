@@ -10,9 +10,16 @@ jQuery(function($){
 		prefillForms = {};
 	} else {
 		prefillForms = JSON.parse( prefillForms );
+
+		console.log( prefillForms );
+
+		$.each( prefillForms, function( form ) {
+			$.each( form, function( id, value ) {
+				$('#' + id).val( value );
+			});
+		});
 	}
 
-	console.log( prefillForms );
 
 	// Save form data
 	$( '.wpforms-container input, .wpforms-container textarea' ).focusout( function(){
@@ -32,6 +39,8 @@ jQuery(function($){
 		}
 
 		prefillForms[ formId ][ fieldId ] = fieldValue;
+
+		console.log( prefillForms );
 
 		Cookies.set( cookieName, prefillForms, { expires: 365 } );
 	});

@@ -9,6 +9,16 @@
 	],
 "creatorBuild": "26330",
 "files": {
+	"\/assets\/js\/be-wpforms-prefill-min.js": {
+		"ft": 64,
+		"ma": 0,
+		"mi": 1,
+		"oA": 0,
+		"oAP": "\/assets\/js\/be-wpforms-prefill-min-min.js",
+		"oF": 0,
+		"sC": 3,
+		"tS": 0
+		},
 	"\/assets\/js\/src\/be-wpforms-prefill.js": {
 		"ft": 64,
 		"ma": 0,
