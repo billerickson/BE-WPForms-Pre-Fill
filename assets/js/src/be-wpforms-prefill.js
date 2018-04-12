@@ -3,22 +3,36 @@
 jQuery(function($){
 
 	// Get prefilled form data
-	var cookieName = 'be_wpforms_prefill';
-	var formData = Cookies.get( cookieName );
-	if( ! formData.length )
-		formData = {};
+	var cookieName = 'be_wpforms_prefill',
+		prefillForms = Cookies.get( cookieName );
+
+	if ( ! prefillForms ) {
+		prefillForms = {};
+	} else {
+		prefillForms = JSON.parse( prefillForms );
+	}
+
+	console.log( prefillForms );
 
 	// Save form data
-	$('.wpforms-container input, .wpforms-container textarea').focusout(function(){
-		var fieldId = $(this).attr('id');
-		var fieldValue = $(this).val();
-		var formId = $(this).closest('.wpforms-form').attr('id').replace(/\D/g,'');
-		if( $.inArray( formId, prefill.forms ) ) {
-			formData[ fieldId ] = fieldValue;
-			console.log( formData );
-			Cookies.set( cookieName, formData, { expires: 365 } );
+	$( '.wpforms-container input, .wpforms-container textarea' .focusout( function(){
+
+		var $this      = $(this),
+			$form      = $this.closest( '.wpforms-form' ),
+			formId     = $form.data('formid'),
+			fieldId    = $this.attr('id'),
+			fieldValue = $this.val();
+
+		if ( ! $form.hasClass( 'be-prefill' ) ) {
+			return;
 		}
+
+		if ( ! prefillForms[ formId ] ) {
+			prefillForms[ formId ] = {};
+		}
+
+		prefillForms[ formId ][ fieldId ] = fieldValue;
+
+		Cookies.set( cookieName, prefillForms, { expires: 365 } );
 	});
-
-
 });

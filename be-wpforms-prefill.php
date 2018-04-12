@@ -111,10 +111,10 @@ final class BE_WPForms_PreFill {
 	 */
 	function init() {
 
-		add_action( 'wp_enqueue_scripts', array( $this, 'scripts' ) );
+		add_action( 'wpforms_wp_footer', array( $this, 'scripts' ) );
       	add_filter( 'wpforms_builder_settings_sections', array( $this, 'settings_section' ), 20, 2 );
         add_filter( 'wpforms_form_settings_panel_content', array( $this, 'settings_section_content' ), 20 );
-
+		add_filter( 'wpforms_frontend_form_atts', array( $this, 'prefill_class' ), 10, 2 );
 	}
 
 
@@ -125,21 +125,8 @@ final class BE_WPForms_PreFill {
 	 */
 	function scripts() {
 
-		$forms = wpforms()->form->get();
-		if( empty( $forms ) || is_wp_error( $forms ) )
-			return;
-
-		$prefill_forms = array();
-		foreach( $forms as $form ) {
-			$data = wpforms_decode( $form->post_content );
-			if( !empty( $data['settings']['be_wpforms_prefill'] ) )
-				$prefill_forms[] = $form->ID;
-		}
-
-		wp_enqueue_script( 'be-wpforms-prefill', BE_WPFORMS_PREFILL_URL . '/assets/js/be-wpforms-prefill-min.js', array( 'jquery' ), BE_WPFORMS_PREFILL_VERSION, true );
- 		wp_localize_script( 'be-wpforms-prefill', 'prefill', array( 'forms' => $prefill_forms ) );
-
-
+		wp_enqueue_script( 'jscookie', BE_WPFORMS_PREFILL_URL . '/assets/js/src/js.cookie.js', array(), BE_WPFORMS_PREFILL_VERSION, true );
+		wp_enqueue_script( 'be-wpforms-prefill', BE_WPFORMS_PREFILL_URL . '/assets/js/src/be-wpforms-prefill.js', array( 'jquery' ), BE_WPFORMS_PREFILL_VERSION, true );
 	}
 
    /**
@@ -167,6 +154,14 @@ final class BE_WPForms_PreFill {
         echo '</div>';
     }
 
+    public function prefill_class( $atts, $form_data ) {
+
+    	if ( ! empty( $form_data['settings']['be_wpforms_prefill'] ) ) {
+    		$atts['class'][] = 'be-prefill';
+    	}
+
+    	return $atts;
+    }
 }
 
 /**
