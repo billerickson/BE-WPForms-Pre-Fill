@@ -11,13 +11,11 @@ jQuery(function($){
 	} else {
 		prefillForms = JSON.parse( prefillForms );
 
-		console.log( prefillForms );
-
-		$.each( prefillForms, function( form ) {
-			$.each( form, function( id, value ) {
-				$('#' + id).val( value );
-			});
-		});
+		for ( var formId in prefillForms ) {
+			if ( $( '#wpforms-form-' + formId).length ) {
+				prefill( formId );
+			}
+		}
 	}
 
 
@@ -40,8 +38,29 @@ jQuery(function($){
 
 		prefillForms[ formId ][ fieldId ] = fieldValue;
 
-		console.log( prefillForms );
-
 		Cookies.set( cookieName, prefillForms, { expires: 365 } );
 	});
+
+	// Pre-fill a form.
+	function prefill( formId ) {
+
+		if ( ! prefillForms[ formId ] ) {
+			return;
+		}
+
+		var formFields = prefillForms[ formId ];
+
+		for ( var fieldId in formFields ) {
+
+			var $fieldElement = $('#' + fieldId );
+
+			if ( $fieldElement.length ) {
+				if ( 'radio' === $fieldElement.attr('type') || 'checkbox' === $fieldElement.attr('type')  ) {
+					// special shit for these fields.
+				} else {
+					$fieldElement.val( formFields[ fieldId ] );
+				}
+			}
+		}
+	}
 });
