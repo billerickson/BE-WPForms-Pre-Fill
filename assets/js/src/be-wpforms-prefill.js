@@ -3,8 +3,12 @@
 jQuery(function($){
 
 	// Get prefilled form data
-	var cookieName = 'be_wpforms_prefill',
-		prefillForms = Cookies.get( cookieName );
+	var cookieName    = 'be_wpforms_prefill',
+		prefillForms  = Cookies.get( cookieName ),
+		allowedFields = [
+			'wpforms-field-name',
+			'wpforms-field-textarea'
+		];
 
 	if ( ! prefillForms ) {
 		prefillForms = {};
@@ -20,15 +24,27 @@ jQuery(function($){
 
 
 	// Save form data
-	$( '.wpforms-container input, .wpforms-container textarea' ).focusout( function(){
+	$( '.wpforms-container input, .wpforms-container textarea, .wpforms-container select' ).focusout( function(){
 
 		var $this      = $(this),
 			$form      = $this.closest( '.wpforms-form' ),
+			$field     = $this.closest( 'wpforms-field' ),
 			formId     = $form.data('formid'),
 			fieldId    = $this.attr('id'),
-			fieldValue = $this.val();
+			fieldValue = $this.val(),
+			allowed    = false;
 
 		if ( ! $form.hasClass( 'be-prefill' ) ) {
+			return;
+		}
+
+		for ( var key in allowedFields ) {
+			if ( $field.hasClass( allowedFields[key] ) ) {
+				allowed = true;
+			}
+		}
+
+		if ( ! allowed ) {
 			return;
 		}
 
