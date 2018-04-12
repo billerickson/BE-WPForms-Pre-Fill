@@ -7,7 +7,11 @@ jQuery(function($){
 		prefillForms  = Cookies.get( cookieName ),
 		allowedFields = [
 			'wpforms-field-name',
-			'wpforms-field-textarea'
+			'wpforms-field-email',
+			'wpforms-field-number',
+			'wpforms-field-text',
+			'wpforms-field-textarea',
+			'wpforms-field-checkbox',
 		];
 
 	if ( ! prefillForms ) {
