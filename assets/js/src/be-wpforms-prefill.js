@@ -15,6 +15,8 @@ jQuery(function($){
 		var formId = $(this).closest('.wpforms-form').attr('id').replace(/\D/g,'');
 		if( $.inArray( formId, prefill.forms ) ) {
 			formData[ fieldId ] = fieldValue;
+			console.log( fieldId );
+			console.log( fieldValue );
 			console.log( formData );
 			Cookies.set( cookieName, formData, { expires: 365 } );
 		}
