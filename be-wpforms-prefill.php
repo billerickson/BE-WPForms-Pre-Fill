@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: BE WPForms Pre-Fill
- * Plugin URI:  https://github.com/billerickson/be-wpforms-pre-fill
+ * Plugin URI:  https://github.com/billerickson/BE-WPForms-Pre-Fill
  * Description: Uses cookies to pre-fill a form a user has already filled out before
  * Author:      Bill Erickson
  * Author URI:  https://www.billerickson.net
@@ -123,7 +123,7 @@ final class BE_WPForms_PreFill {
 	 */
 	function scripts() {
 
-		wp_register_script( 'be-wpforms-prefill', BE_WPFORMS_PREFILL_URL . '/assets/js/be-wpforms-prefill.min.js', array( 'jquery' ), BE_WPFORMS_PREFILL_VERSION, true );
+		wp_register_script( 'be-wpforms-prefill', BE_WPFORMS_PREFILL_URL . '/assets/js/be-wpforms-prefill-min.js', array( 'jquery' ), BE_WPFORMS_PREFILL_VERSION, true );
  		//wp_localize_script( 'be-like-content', 'BE_WPFORMS_PREFILL', array( 'url' => admin_url( 'admin-ajax.php' ) ) );
 
 	}
