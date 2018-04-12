@@ -83,13 +83,13 @@ final class BE_WPForms_PreFill {
 	 *
 	 * @since 1.0.0
 	 */
-	function constants() {
+	public function constants() {
 
 		// Version
- 		define( 'BE_WPFORMS_PREFILL_VERSION', $this->version );
+		define( 'BE_WPFORMS_PREFILL_VERSION', $this->version );
 
- 		// Directory URL
- 		define( 'BE_WPFORMS_PREFILL_URL', plugin_dir_url( __FILE__ ) );
+		// Directory URL
+		define( 'BE_WPFORMS_PREFILL_URL', plugin_dir_url( __FILE__ ) );
 	}
 
 	/**
@@ -97,10 +97,9 @@ final class BE_WPForms_PreFill {
 	 *
 	 * @since 1.1.0
 	 */
-	function load_textdomain() {
+	public function load_textdomain() {
 
-			 load_plugin_textdomain( 'be-wpforms-prefill', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
-
+		load_plugin_textdomain( 'be-wpforms-prefill', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 	}
 
 
@@ -109,11 +108,11 @@ final class BE_WPForms_PreFill {
 	 *
 	 * @since 1.0.0
 	 */
-	function init() {
+	public function init() {
 
 		add_action( 'wpforms_wp_footer', array( $this, 'scripts' ) );
-      	add_filter( 'wpforms_builder_settings_sections', array( $this, 'settings_section' ), 20, 2 );
-        add_filter( 'wpforms_form_settings_panel_content', array( $this, 'settings_section_content' ), 20 );
+		add_filter( 'wpforms_builder_settings_sections', array( $this, 'settings_section' ), 20, 2 );
+		add_filter( 'wpforms_form_settings_panel_content', array( $this, 'settings_section_content' ), 20 );
 		add_filter( 'wpforms_frontend_form_atts', array( $this, 'prefill_class' ), 10, 2 );
 	}
 
@@ -123,27 +122,34 @@ final class BE_WPForms_PreFill {
 	 *
 	 * @since 1.0.0
 	 */
-	function scripts() {
+	public function scripts() {
 
-		wp_enqueue_script( 'jscookie', BE_WPFORMS_PREFILL_URL . '/assets/js/src/js.cookie.js', array(), BE_WPFORMS_PREFILL_VERSION, true );
-		wp_enqueue_script( 'be-wpforms-prefill', BE_WPFORMS_PREFILL_URL . '/assets/js/src/be-wpforms-prefill.js', array( 'jquery' ), BE_WPFORMS_PREFILL_VERSION, true );
+		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG )  {
+			wp_enqueue_script( 'jscookie', BE_WPFORMS_PREFILL_URL . '/assets/js/src/js.cookie.js', array(), '2.1.2', true );
+			wp_enqueue_script( 'be-wpforms-prefill', BE_WPFORMS_PREFILL_URL . '/assets/js/src/be-wpforms-prefill.js', array( 'jquery' ), BE_WPFORMS_PREFILL_VERSION, true );
+		} else {
+			wp_enqueue_script( 'be-wpforms-prefill', BE_WPFORMS_PREFILL_URL . '/assets/js/be-wpforms-prefill-min.js', array( 'jquery' ), BE_WPFORMS_PREFILL_VERSION, true );
+		}
 	}
 
-   /**
-     * Add Settings Section
-     *
-     */
-    function settings_section( $sections, $form_data ) {
-        $sections['be_wpforms_prefill'] = __( 'Pre-Fill', 'be-wpforms-prefill' );
-        return $sections;
-    }
-    /**
-     * ConvertKit Settings Content
-     *
-     */
-    function settings_section_content( $instance ) {
-        echo '<div class="wpforms-panel-content-section wpforms-panel-content-section-be_wpforms_prefill">';
-        echo '<div class="wpforms-panel-content-section-title">' . __( 'Pre-Fill', 'be-wpforms-prefill' ) . '</div>';
+	/**
+	 * Add Settings Section
+	 *
+	 */
+	public function settings_section( $sections, $form_data ) {
+
+		$sections['be_wpforms_prefill'] = __( 'Pre-Fill', 'be-wpforms-prefill' );
+		return $sections;
+	}
+
+	/**
+	 * ConvertKit Settings Content
+	 *
+	 */
+	public function settings_section_content( $instance ) {
+
+		echo '<div class="wpforms-panel-content-section wpforms-panel-content-section-be_wpforms_prefill">';
+		echo '<div class="wpforms-panel-content-section-title">' . __( 'Pre-Fill', 'be-wpforms-prefill' ) . '</div>';
 		wpforms_panel_field(
 			'checkbox',
 			'settings',
@@ -151,17 +157,27 @@ final class BE_WPForms_PreFill {
 			$instance->form_data,
 			esc_html__( 'Pre-fill form with previous submission using cookie', 'wpforms' )
 		);
-        echo '</div>';
-    }
+		echo '</div>';
+	}
 
-    public function prefill_class( $atts, $form_data ) {
+	/**
+	 * Add form class to identify prefilling is enabled.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $atts
+	 * @param array $form_data
+	 *
+	 * @return array
+	 */
+	public function prefill_class( $atts, $form_data ) {
 
-    	if ( ! empty( $form_data['settings']['be_wpforms_prefill'] ) ) {
-    		$atts['class'][] = 'be-prefill';
-    	}
+		if ( ! empty( $form_data['settings']['be_wpforms_prefill'] ) ) {
+			$atts['class'][] = 'be-prefill';
+		}
 
-    	return $atts;
-    }
+		return $atts;
+	}
 }
 
 /**

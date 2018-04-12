@@ -15,7 +15,7 @@ jQuery(function($){
 	console.log( prefillForms );
 
 	// Save form data
-	$( '.wpforms-container input, .wpforms-container textarea' .focusout( function(){
+	$( '.wpforms-container input, .wpforms-container textarea' ).focusout( function(){
 
 		var $this      = $(this),
 			$form      = $this.closest( '.wpforms-form' ),
