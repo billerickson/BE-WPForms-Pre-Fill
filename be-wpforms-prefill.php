@@ -125,8 +125,20 @@ final class BE_WPForms_PreFill {
 	 */
 	function scripts() {
 
-		wp_register_script( 'be-wpforms-prefill', BE_WPFORMS_PREFILL_URL . '/assets/js/be-wpforms-prefill-min.js', array( 'jquery' ), BE_WPFORMS_PREFILL_VERSION, true );
- 		//wp_localize_script( 'be-like-content', 'BE_WPFORMS_PREFILL', array( 'url' => admin_url( 'admin-ajax.php' ) ) );
+		$forms = wpforms()->form->get();
+		if( empty( $forms ) || is_wp_error( $forms ) )
+			return;
+
+		$prefill_forms = array();
+		foreach( $forms as $form ) {
+			$data = wpforms_decode( $form->post_content );
+			if( !empty( $data['settings']['be_wpforms_prefill'] ) )
+				$prefill_forms[] = $form->ID;
+		}
+
+		wp_enqueue_script( 'be-wpforms-prefill', BE_WPFORMS_PREFILL_URL . '/assets/js/be-wpforms-prefill-min.js', array( 'jquery' ), BE_WPFORMS_PREFILL_VERSION, true );
+ 		wp_localize_script( 'be-wpforms-prefill', 'prefill', array( 'forms' => $prefill_forms ) );
+
 
 	}
 
@@ -154,21 +166,6 @@ final class BE_WPForms_PreFill {
 		);
         echo '</div>';
     }
-
-
-	/**
-	 * Load Assets
-	 *
-	 * @since 1.0.0
-	 */
-	function load_assets() {
-
-		if( apply_filters( 'be_wpforms_prefill_load_assets', true ) ) {
-
-			wp_enqueue_script( 'be-wpforms-prefill' );
-		}
-
-	}
 
 }
 
