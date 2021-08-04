@@ -12,6 +12,8 @@ jQuery(function($){
 			'wpforms-field-text',
 			'wpforms-field-textarea',
 			'wpforms-field-checkbox',
+			'wpforms-field-radio',
+			'wpforms-field-likert_scale',
 		];
 
 	if ( ! prefillForms ) {
@@ -77,6 +79,9 @@ jQuery(function($){
 			if ( $fieldElement.length ) {
 				if ( 'radio' === $fieldElement.attr('type') || 'checkbox' === $fieldElement.attr('type')  ) {
 					// special shit for these fields.
+					if ( $fieldElement.val() == formFields[ fieldId ] ) {
+						$fieldElement.prop('checked', true );
+					}
 				} else {
 					$fieldElement.val( formFields[ fieldId ] );
 				}
